@@ -230,6 +230,18 @@ require('lazy').setup({
     },
   },
 
+  -- { -- Adds git related signs to the gutter, as well as utilities for managing changes
+  --   'lewis6991/gitsigns.nvim',
+  --   opts = {
+  --     signs = {
+  --       add = { text = '+' },
+  --       change = { text = '~' },
+  --       delete = { text = '_' },
+  --       topdelete = { text = '‾' },
+  --       changedelete = { text = '~' },
+  --     },
+  --   },
+  -- },
   --
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -538,6 +550,20 @@ require('lazy').setup({
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --  See `:help lsp-config` for information about keys and how to configure
       local servers = {
+
+        -- yamlls = {
+        --   settings = {
+        --     yaml = {
+        --       -- other settings. note this overrides the lspconfig defaults.
+        --       schemas = {
+        --         "kubernetes"= ["/*.k8s.yaml"],
+        --         --'https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.1-standalone-strict/all.json': '/*.k8s.yaml'
+        --         -- other schemas
+        --       },
+        --     },
+        --   },
+        -- },
+
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
@@ -871,7 +897,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
