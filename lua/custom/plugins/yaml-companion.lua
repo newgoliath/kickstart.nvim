@@ -33,8 +33,13 @@ return {
 --
 return {
   {
-    'someone-stole-my-name/yaml-companion.nvim',
+    'msvechla/yaml-companion.nvim',
     ft = { 'yaml' },
+    opts = {
+      builtin_matchers = {
+        kubernetes = { enabled = true },
+      },
+    },
     dependencies = {
       { 'neovim/nvim-lspconfig' },
       { 'nvim-lua/plenary.nvim' },
