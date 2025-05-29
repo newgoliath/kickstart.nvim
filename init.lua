@@ -1,89 +1,3 @@
---[[
-
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-========                                    .-----.          ========
-========         .----------------------.   | === |          ========
-========         |.-""""""""""""""""""-.|   |-----|          ========
-========         ||                    ||   | === |          ========
-========         ||   KICKSTART.NVIM   ||   |-----|          ========
-========         ||                    ||   | === |          ========
-========         ||                    ||   |-----|          ========
-========         ||:Tutor              ||   |:::::|          ========
-========         |'-..................-'|   |____o|          ========
-========         `"")----------------(""`   ___________      ========
-========        /::::::::::|  |::::::::::\  \ no mouse \     ========
-========       /:::========|  |==hjkl==:::\  \ required \    ========
-========      '""""""""""""'  '""""""""""""'  '""""""""""'   ========
-========                                                     ========
-=====================================================================
-=====================================================================
-
-What is Kickstart?
-
-  Kickstart.nvim is *not* a distribution.
-
-  Kickstart.nvim is a starting point for your own configuration.
-    The goal is that you can read every line of code, top-to-bottom, understand
-    what your configuration is doing, and modify it to suit your needs.
-
-    Once you've done that, you can start exploring, configuring and tinkering to
-    make Neovim your own! That might mean leaving Kickstart just the way it is for a while
-    or immediately breaking it into modular pieces. It's up to you!
-
-    If you don't know anything about Lua, I recommend taking some time to read through
-    a guide. One possible example which will only take 10-15 minutes:
-      - https://learnxinyminutes.com/docs/lua/
-
-    After understanding a bit more about Lua, you can use `:help lua-guide` as a
-    reference for how Neovim integrates Lua.
-    - :help lua-guide
-    - (or HTML version): https://neovim.io/doc/user/lua-guide.html
-
-Kickstart Guide:
-
-  TODO: The very first thing you should do is to run the command `:Tutor` in Neovim.
-
-    If you don't know what this means, type the following:
-      - <escape key>
-      - :
-      - Tutor
-      - <enter key>
-
-    (If you already know the Neovim basics, you can skip this step.)
-
-  Once you've completed that, you can continue working through **AND READING** the rest
-  of the kickstart init.lua.
-
-  Next, run AND READ `:help`.
-    This will open up a help window with some basic information
-    about reading, navigating and searching the builtin help documentation.
-
-    This should be the first place you go to look when you're stuck or confused
-    with something. It's one of my favorite Neovim features.
-
-    MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
-    which is very useful when you're not exactly sure of what you're looking for.
-
-  I have left several `:help X` comments throughout the init.lua
-    These are hints about where to find more information about the relevant settings,
-    plugins or Neovim features used in Kickstart.
-
-   NOTE: Look for lines like this
-
-    Throughout the file. These are for you, the reader, to help you understand what is happening.
-    Feel free to delete them once you know what you're doing, but they should serve as a guide
-    for when you are first encountering a few different constructs in your Neovim config.
-
-If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now! :)
---]]
-
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -280,32 +194,42 @@ require('lazy').setup({
   { 'NMAC427/guess-indent.nvim', opts = {} },
 
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
+  --
   -- If you prefer to call `setup` explicitly, use:
-  --    {
-  --        'lewis6991/gitsigns.nvim',
-  --        config = function()
-  --            require('gitsigns').setup({
-  --                -- Your gitsigns configuration here
-  --            })
-  --        end,
-  --    }
+
+  -- {
+  --     'lewis6991/gitsigns.nvim',
+  --     config = function()
+  --         require('gitsigns').setup({})
+  --     end,
+  -- }
   --
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`.
   --
   -- See `:help gitsigns` to understand what the configuration keys do
-  -- { -- Adds git related signs to the gutter, as well as utilities for managing changes
-  --   'lewis6991/gitsigns.nvim',
-  --   opts = {
-  --     signs = {
-  --       add = { text = '+' },
-  --       change = { text = '~' },
-  --       delete = { text = '_' },
-  --       topdelete = { text = '‾' },
-  --       changedelete = { text = '~' },
-  --     },
-  --   },
-  -- },
+
+  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+    'lewis6991/gitsigns.nvim',
+    opts = {
+      signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+        untracked = { text = '┆' },
+      },
+      current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+      current_line_blame_opts = {
+        virt_text = true,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 1000,
+        ignore_whitespace = false,
+      },
+    },
+  },
+
   --
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -614,20 +538,6 @@ require('lazy').setup({
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --  See `:help lsp-config` for information about keys and how to configure
       local servers = {
-
-        -- yamlls = {
-        --   settings = {
-        --     yaml = {
-        --       -- other settings. note this overrides the lspconfig defaults.
-        --       schemas = {
-        --         "kubernetes"= ["/*.k8s.yaml"],
-        --         --'https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.1-standalone-strict/all.json': '/*.k8s.yaml'
-        --         -- other schemas
-        --       },
-        --     },
-        --   },
-        -- },
-
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
@@ -821,6 +731,22 @@ require('lazy').setup({
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
     },
+          -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+          --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+        },
+        sources = {
+          -- {
+          --   name = 'lazydev',
+          --   -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
+          --   group_index = 0,
+          -- },
+          { name = 'nvim_lsp' },
+          -- { name = 'luasnip' },
+          -- { name = 'path' },
+          -- { name = 'nvim_lsp_signature_help' },
+        },
+      }
+    end,
   },
 
   { -- You can easily change to a different colorscheme.
@@ -851,6 +777,8 @@ require('lazy').setup({
   { -- Collection of various small independent plugins/modules
     'nvim-mini/mini.nvim',
     config = function()
+      require('mini.pick').setup {}
+      require('mini.sessions').setup {}
       require('mini.files').setup {
         windows = {
           preview = true,
@@ -864,6 +792,12 @@ require('lazy').setup({
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
+      require('mini.indentscope').setup {
+        options = {
+          border = 'top',
+          indent_at_cursor = false,
+        },
+      }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
@@ -875,15 +809,18 @@ require('lazy').setup({
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
+      -- local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+      -- statusline.setup { use_icons = vim.g.have_nerd_font }
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
       -- cursor location to LINE:COLUMN
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_location = function() return '%2l:%-2v' end
+      -- statusline.section_location = function()
+      --   return '%2l:%-2v'
+      -- end
 
       -- ... and there is more!
       --  Check out: https://github.com/nvim-mini/mini.nvim
@@ -934,7 +871,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   -- require 'kickstart.plugins.debug',
-  require 'kickstart.plugins.indent_line',
+  -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
@@ -971,6 +908,65 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
+})
+
+-- mini.files configs
+-- Set focused directory as current working directory
+local set_cwd = function()
+  local path = (MiniFiles.get_fs_entry() or {}).path
+  if path == nil then
+    return vim.notify 'Cursor is not on valid entry'
+  end
+  vim.fn.chdir(vim.fs.dirname(path))
+end
+
+-- Yank in register full path of entry under cursor
+local yank_path = function()
+  local path = (MiniFiles.get_fs_entry() or {}).path
+  if path == nil then
+    return vim.notify 'Cursor is not on valid entry'
+  end
+  vim.fn.setreg(vim.v.register, path)
+end
+
+-- Open path with system default handler (useful for non-text files)
+local ui_open = function()
+  vim.ui.open(MiniFiles.get_fs_entry().path)
+end
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'MiniFilesBufferCreate',
+  callback = function(args)
+    local b = args.data.buf_id
+    vim.keymap.set('n', 'g~', set_cwd, { buffer = b, desc = 'Set cwd' })
+    vim.keymap.set('n', 'gX', ui_open, { buffer = b, desc = 'OS open' })
+    vim.keymap.set('n', 'gy', yank_path, { buffer = b, desc = 'Yank path' })
+  end,
+})
+
+local minifiles_toggle = function(...)
+  if not MiniFiles.close() then
+    MiniFiles.open(...)
+  end
+end
+
+-- Add this mapping
+vim.keymap.set('n', '<Leader>gg', minifiles_toggle, { desc = 'Toggle MiniFiles' }) -- Set focused directory as current working directory
+
+-- set custom bookmarks for mini.files
+local set_mark = function(id, path, desc)
+  MiniFiles.set_bookmark(id, path, { desc = desc })
+end
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'MiniFilesExplorerOpen',
+  callback = function()
+    set_mark('c', vim.fn.stdpath 'config', 'Config') -- path
+    set_mark('w', vim.fn.getcwd, 'Working directory') -- callable
+    set_mark('~', '~', 'Home directory')
+    set_mark('v', '~/Development/agnosticv/', 'AgnosticV')
+    set_mark('d', '~/Development/agnosticd/', 'AgnosticD')
+    set_mark('D', '~/Development/', 'Development')
+  end,
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
